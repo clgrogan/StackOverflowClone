@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using StackOverflowClone.Models;
+using StackOverflowClone.ViewModels;
 
 namespace StackOverflowClone
 {
