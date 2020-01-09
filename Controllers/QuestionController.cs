@@ -32,14 +32,40 @@ namespace StackOverflowClone.Controllers
     [HttpGet("{id}")]
     public async Task<ActionResult<Question>> GetQuestion(int id)
     {
-      var question = await db.Questions.FindAsync(id);
+
+      // var student = db.Students.Include(i => i.ProgressReports).FirstOrDefault(st => st.Id == id);
+      var question = await db
+        .Questions
+        .Include(i => i.Answers)
+        .FirstOrDefaultAsync(f => f.ID == id);
 
       if (question == null)
       {
         return NotFound();
       }
 
-      return question;
+      else
+      {
+        // create json object from model view
+        var rv = new QuestionDetails
+        {
+          ID = question.ID,
+          Title = question.Title,
+          QuestionBody = question.QuestionBody,
+          VoteScore = question.VoteScore,
+          TimeStamp = question.TimeStamp,
+          Answers = question.Answers.Select(a => new CreatedAnswer
+          {
+            ID = a.ID,
+            AnswerBody = a.AnswerBody,
+            VoteScore = a.VoteScore,
+            TimeStamp = a.TimeStamp,
+            QuestionId = a.QuestionId
+          }).ToList()
+        };
+        return Ok(rv);
+      }
+
     }
 
     // PUT: api/Question/5
