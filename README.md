@@ -1,4 +1,8 @@
-# Defualt Template for SDG .NET Course
+# Where is this api app hosted???
+
+https://stack-overflow-clone-cg.herokuapp.com
+
+# Default Template for SDG .NET Course
 
 This is the default template for a simple .NET Core Web API. This template has:
 
