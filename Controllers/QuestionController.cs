@@ -28,6 +28,17 @@ namespace StackOverflowClone.Controllers
       return await db.Questions.ToListAsync();
     }
 
+    [HttpGet("Search/{searchTerm}")]
+    public ActionResult SearchQuestions(string searchTerm)
+    {
+      var results = db.Questions
+        .Where(question =>
+            question.Title.ToLower().Contains(searchTerm.ToLower()) ||
+            question.QuestionBody.ToLower().Contains(searchTerm.ToLower())
+        );
+      return Ok(results);
+    }
+
     // GET: api/Question/5
     [HttpGet("{id}")]
     public async Task<ActionResult<Question>> GetQuestion(int id)
@@ -73,34 +84,36 @@ namespace StackOverflowClone.Controllers
     // more details see https://aka.ms/RazorPagesCRUD.
 
     // No Update Enabled on Question, commenting out the Put endpoint code
-    // [HttpPut("{id}")]
-    // public async Task<IActionResult> PutQuestion(int id, Question question)
-    // {
-    //   if (id != question.ID)
-    //   {
-    //     return BadRequest();
-    //   }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> PutQuestion(int id, Question question)
+    {
+      Console.WriteLine("id from call: " + id + " Body passed: " + question.VoteScore);
+      if (id != question.ID)
+      {
+        return BadRequest();
+      }
 
-    //   db.Entry(question).State = EntityState.Modified;
+      db.Entry(question).State = EntityState.Modified;
 
-    //   try
-    //   {
-    //     await db.SaveChangesAsync();
-    //   }
-    //   catch (DbUpdateConcurrencyException)
-    //   {
-    //     if (!QuestionExists(id))
-    //     {
-    //       return NotFound();
-    //     }
-    //     else
-    //     {
-    //       throw;
-    //     }
-    //   }
+      try
+      {
+        await db.SaveChangesAsync();
+      }
+      catch (DbUpdateConcurrencyException)
+      {
+        if (!QuestionExists(id))
+        {
+          return NotFound();
+        }
+        else
+        {
+          throw;
+        }
+      }
 
-    //   return NoContent();
-    // }
+      Console.WriteLine(id + " you made it to the bottom. Why didn't it update?" + question.ID);
+      return NoContent();
+    }
 
     // POST: api/Question
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for
