@@ -87,7 +87,6 @@ namespace StackOverflowClone.Controllers
     [HttpPut("{id}")]
     public async Task<IActionResult> PutQuestion(int id, Question question)
     {
-      Console.WriteLine("id from call: " + id + " Body passed: " + question.VoteScore);
       if (id != question.ID)
       {
         return BadRequest();
@@ -110,8 +109,6 @@ namespace StackOverflowClone.Controllers
           throw;
         }
       }
-
-      Console.WriteLine(id + " you made it to the bottom. Why didn't it update?" + question.ID);
       return NoContent();
     }
 

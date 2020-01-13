@@ -46,8 +46,7 @@ namespace StackOverflowClone.Controllers
     // To protect from overposting attacks, please enable the specific properties you want to bind to, for
     // more details see https://aka.ms/RazorPagesCRUD.
     [HttpPut("{id}")]
-    // public async Task<IActionResult> PutAnswer(int id, Answer answer)
-    public async Task<IActionResult> PutAnswer(int id, UpdateAnswerVote answer)
+    public async Task<IActionResult> PutAnswer(int id, Answer answer)
     {
       if (id != answer.ID)
       {
@@ -71,7 +70,6 @@ namespace StackOverflowClone.Controllers
           throw;
         }
       }
-
       return NoContent();
     }
 
